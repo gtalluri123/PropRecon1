@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="~/Scripts/jsGrid/jsgrid.js"></script>
+<link href="~/Scripts/jsGrid/jsgrid.css" rel="stylesheet" />
+<script>
+    $(function () {
+        $("#jsGrid").jsGrid({
+            height: "auto",
+            width: "100%",
+
+            sorting: true,
+            paging: false,
+            autoload: true,
+
+            controller: {
+                loadData: function () {
+                    var d = $.Deferred();
+
+                    $.ajax({
+                        url: "http://localhost:8649/home/getdata",
+                        dataType: "json"
+                    }).done(function (response) {
+                        d.resolve(response);
+                    });
+
+                    return d.promise();
+                }
+            },
+
+            fields: [
+                { name: "FormerOwnerLast", type: "text" },
+                { name: "FormerOwnerFirst", type: "text" },
+                { name: "FormerOwnerAddressLine1", type: "text" },
+                { name: "FormerOwnerCity", type: "text" },
+                {
+                    name: "HolderReportYear", type: "number",
+                    itemTemplate: function (value) {
+                        return new Date(value).getFullYear();
+                    }
+                },
+
+                { name: "HolderName", type: "text" },
+
+                {
+                    name: "AmountRemitted", type: "number",
+                    itemTemplate: function (value) {
+                        return "$" + value.toFixed(2);
+                    }
+                },
+                { name: "StateCode", type: "text" },
+                { name: "PostalCode", type: "text" },
+                { name: "PhoneNumber", type: "text" },
+            ]
+        });
+
+
+
+    });
+</script>
+<header>
+    <div class="content-wrapper">
+        <div class="float-left">
+            <p class="site-title">
+                <a href="~/">ASP.NET Web API</a>
+            </p>
+        </div>
+    </div>
+</header>
+<div id="body">
+    <section class="featured">
+        <div id="jsGrid" />
+        <div class="content-wrapper">
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <h3>We suggest the following steps:</h3>
+        <ol class="round">
+            <li class="one">
+               
+            </li>
+
+            <li class="two">
+               
+            </li>
+            <li class="three">
+               
+            </li>
+        </ol>
+    </section>
+</div>
